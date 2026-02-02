@@ -125,4 +125,4 @@ mysql> desc PERSON;
 ERROR 1146 (42S02): Table 'saniya.PERSON' doesn't exist
 mysql> 
 
-
+//
