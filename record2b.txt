@@ -1,0 +1,118 @@
+ b) DML - UPDATE 
+ 1. Update the price of a particular product. 
+ 
+ mysql> update Product set price=50 where pname='soap';
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Product;
++-----+--------+-------+
+| pid | pname  | price |
++-----+--------+-------+
+|   1 | soap   |    50 |
+|   2 | pen    |    10 |
+|   3 | pencil |     5 |
+|   4 | scale  |     6 |
+|   5 | table  |    99 |
+|   6 | cup    |    60 |
+|   7 | book   |   100 |
++-----+--------+-------+
+7 rows in set (0.00 sec)
+
+2. Change the name of city ‘calicut’ to ‘kozhikode’ in the customer table. 
+
+mysql> update Customer set city='kozhikode' where name='gia';
+Query OK, 1 row affected (0.09 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Customer;
++----+---------+----------------+-----------+------------+
+| id | name    | address        | city      | ph_no      |
++----+---------+----------------+-----------+------------+
+| 11 | sara    | grace house    | kochi     | 9898675432 |
+| 13 | gia     | kphouse        | kozhikode | 6767553098 |
+| 21 | benny   | white house    | kollam    | 6585627865 |
+| 22 | Vinayak | methottthazham | calicut   | 8967435632 |
+| 24 | sinu    | karanthoor     | calicut   | 8964785632 |
+| 26 | aswani  | mukkam         | wayanad   | 9087435632 |
+| 28 | sahva   | muthalam       | kollam    | 9346025632 |
++----+---------+----------------+-----------+------------+
+
+3. Update all prices with 2% of its original price. 
+
+mysql> update Product set price= price*1.02;
+Query OK, 4 rows affected (0.09 sec)
+Rows matched: 7  Changed: 4  Warnings: 0
+
+mysql> select * from Product;
++-----+--------+-------+
+| pid | pname  | price |
++-----+--------+-------+
+|   1 | soap   |    51 |
+|   2 | pen    |    10 |
+|   3 | pencil |     5 |
+|   4 | scale  |     6 |
+|   5 | table  |   101 |
+|   6 | cup    |    61 |
+|   7 | book   |   102 |
++-----+--------+-------+
+7 rows in set (0.00 sec)
+
+4. Change the address, city, phone number of a particular customer.
+
+mysql> update Customer set city='kozhikode',address='sreenilayam',ph_no=8590781193 where name='Vinayak';
+Query OK, 1 row affected (0.09 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Customer;
++----+---------+-------------+-----------+------------+
+| id | name    | address     | city      | ph_no      |
++----+---------+-------------+-----------+------------+
+| 11 | sara    | grace house | kochi     | 9898675432 |
+| 13 | gia     | kphouse     | kozhikode | 6767553098 |
+| 21 | benny   | white house | kollam    | 6585627865 |
+| 22 | Vinayak | sreenilayam | kozhikode | 8590781193 |
+| 24 | sinu    | karanthoor  | calicut   | 8964785632 |
+| 26 | aswani  | mukkam      | wayanad   | 9087435632 |
+| 28 | sahva   | muthalam    | kollam    | 9346025632 |
++----+---------+-------------+-----------+------------+
+7 rows in set (0.00 sec)
+
+ 5. Change the quantity of a purchased product of inv_id ‘132’ 
+ 
+ mysql> update Invoice_item set quantity=15 where pid=1;
+Query OK, 2 rows affected (0.10 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from Invoice_item;
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|    132 |    1 |       15 |
+|    133 |    2 |        6 |
+|    134 |    4 |        3 |
+|    135 |    7 |        2 |
+|    136 |    6 |        4 |
+|    137 |    3 |        5 |
+|    138 |    5 |        7 |
+|    139 |    1 |       15 |
+|    140 |    3 |        6 |
+|    141 |    5 |        3 |
+|    142 |    4 |        9 |
+|    143 |    6 |        2 |
+|    134 |    5 |        3 |
+|    136 |    3 |        7 |
+|    134 |    7 |        2 |
+|    140 |    6 |        3 |
+|    136 |    4 |        7 |
+|    140 |    3 |        7 |
+|    141 |    4 |        6 |
++--------+------+----------+
+19 rows in set (0.00 sec)
+
+ 
+ 
+
+
+
+
