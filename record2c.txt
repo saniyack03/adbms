@@ -1,0 +1,176 @@
+c) DML - DELETE 
+
+1. Delete the record of customer id ‘11’. 
+
+mysql> DELETE FROM Invoice_item WHERE inv_id in (SELECT inv_id FROM Invoice_master where cust_id=11);
+Query OK, 3 rows affected (0.11 sec)
+
+mysql> delete from Invoice_master where cust_id=11;
+Query OK, 3 rows affected (0.12 sec)
+mysql> delete from Customer where id=11;
+Query OK, 1 row affected (0.10 sec)
+
+mysql> select * from Customer;
++----+---------+-------------+-----------+------------+
+| id | name    | address     | city      | ph_no      |
++----+---------+-------------+-----------+------------+
+| 13 | gia     | kphouse     | kozhikode | 6767553098 |
+| 21 | benny   | white house | kollam    | 6585627865 |
+| 22 | Vinayak | sreenilayam | kozhikode | 8590781193 |
+| 24 | sinu    | karanthoor  | calicut   | 8964785632 |
+| 26 | aswani  | mukkam      | wayanad   | 9087435632 |
+| 28 | sahva   | muthalam    | kollam    | 9346025632 |
++----+---------+-------------+-----------+------------+
+6 rows in set (0.00 sec)
+
+2. Delete all purchase details of items its quantity less than 2. 
+
+mysql> delete from Invoice_item where quantity<3;
+Query OK, 3 rows affected (0.11 sec)
+
+mysql> select * from Invoice_item;
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|    133 |    2 |        6 |
+|    134 |    4 |        3 |
+|    136 |    6 |        4 |
+|    137 |    3 |        5 |
+|    138 |    5 |        7 |
+|    140 |    3 |        6 |
+|    141 |    5 |        3 |
+|    134 |    5 |        3 |
+|    136 |    3 |        7 |
+|    140 |    6 |        3 |
+|    136 |    4 |        7 |
+|    140 |    3 |        7 |
+|    141 |    4 |        6 |
++--------+------+----------+
+13 rows in set (0.00 sec)
+
+3. Delete the purchase details of product ‘pen’ in the inv_id ‘133’. 
+
+mysql> delete from Invoice_item where inv_id=133 and pid=(select pid from Product where pname='pen');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> select * from Invoice_item;
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|    134 |    4 |        3 |
+|    136 |    6 |        4 |
+|    137 |    3 |        5 |
+|    138 |    5 |        7 |
+|    140 |    3 |        6 |
+|    141 |    5 |        3 |
+|    134 |    5 |        3 |
+|    136 |    3 |        7 |
+|    140 |    6 |        3 |
+|    136 |    4 |        7 |
+|    140 |    3 |        7 |
+|    141 |    4 |        6 |
++--------+------+----------+
+12 rows in set (0.00 sec)
+
+4. Delete details of customer who does not have phone number. 
+
+mysql> DELETE FROM Invoice_item 
+    -> WHERE inv_id IN (
+    ->     SELECT inv_id 
+    ->     FROM Invoice_master 
+    ->     WHERE cust_id IN (
+    ->         SELECT id 
+    ->         FROM Customer 
+    ->         WHERE ph_no IS NULL
+    ->     )
+    -> );
+Query OK, 1 row affected (0.09 sec)
+
+mysql> DELETE FROM Invoice_master where cust_id IN (SELECT id FROM Customer WHERE ph_no IS NULL);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> DELETE FROM CUSTOMER WHERE ph_no IS NULL;
+ERROR 1146 (42S02): Table 'INVOICE.CUSTOMER' doesn't exist
+mysql> DELETE FROM Customer WHERE ph_no IS NULL;
+Query OK, 1 row affected (0.24 sec)
+
+mysql> select * from Customer;
++----+---------+-------------+-----------+------------+
+| id | name    | address     | city      | ph_no      |
++----+---------+-------------+-----------+------------+
+| 13 | gia     | kphouse     | kozhikode | 6767553098 |
+| 21 | benny   | white house | kollam    | 6585627865 |
+| 22 | Vinayak | sreenilayam | kozhikode | 8590781193 |
+| 24 | sinu    | karanthoor  | calicut   | 8964785632 |
+| 26 | aswani  | mukkam      | wayanad   | 9087435632 |
++----+---------+-------------+-----------+------------+
+5 rows in set (0.00 sec)
+
+
+5. Delete all records from STUDENT table. 
+
+mysql> DELETE FROM STUDENT;
+Query OK, 4 rows affected (0.09 sec)
+
+mysql> select * from STUDENT;
+Empty set (0.00 sec)
+
+6. Delete Invoice details of a particular customer "XYZ".
+
+mysql> DELETE FROM Invoice_item where inv_id IN (SELECT inv_id from Invoice_master where cust_id=26);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> DELETE FROM Invoice_master WHERE cust_id=26;
+Query OK, 1 row affected (0.10 sec)
+
+mysql> select * from Invoice_master;
++--------+---------+------------+
+| inv_id | cust_id | inv_date   |
++--------+---------+------------+
+|    133 |      13 | 2025-05-25 |
+|    134 |      21 | 2025-05-27 |
+|    135 |      22 | 2025-06-25 |
+|    136 |      24 | 2025-03-28 |
+|    140 |      13 | 2025-04-29 |
+|    141 |      13 | 2025-10-14 |
+|    143 |      13 | 2025-11-24 |
++--------+---------+------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from Invoice_item;
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|    134 |    4 |        3 |
+|    136 |    6 |        4 |
+|    140 |    3 |        6 |
+|    141 |    5 |        3 |
+|    134 |    5 |        3 |
+|    136 |    3 |        7 |
+|    140 |    6 |        3 |
+|    136 |    4 |        7 |
+|    140 |    3 |        7 |
+|    141 |    4 |        6 |
++--------+------+----------+
+10 rows in set (0.00 sec)
+
+7. Delete the first two records of INVOICE_ITEM table its purchase quantity is high.
+
+mysql> DELETE FROM Invoice_item LIMIT 2;
+Query OK, 2 rows affected (0.16 sec)
+
+mysql> select * from Invoice_item;
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|    140 |    3 |        6 |
+|    141 |    5 |        3 |
+|    134 |    5 |        3 |
+|    136 |    3 |        7 |
+|    140 |    6 |        3 |
+|    136 |    4 |        7 |
+|    140 |    3 |        7 |
+|    141 |    4 |        6 |
++--------+------+----------+
+8 rows in set (0.00 sec)
+
