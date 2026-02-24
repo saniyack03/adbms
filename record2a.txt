@@ -102,21 +102,22 @@ Query OK, 1 row affected (0.11 sec)
 mysql> insert into Customer values(26,'aswani','mukkam','wayanad',9087435632);
 Query OK, 1 row affected (0.10 sec)
 
-mysql> insert into Customer values(28,'sahva','muthalam','kollam',9346025632);
+mysql> insert into Customer values(28,'sahva','muthalam','kollam');
 Query OK, 1 row affected (0.11 sec)
 
-mysql> SELECT * FROM Customer;
-+----+---------+----------------+---------+------------+
-| id | name    | address        | city    | ph_no      |
-+----+---------+----------------+---------+------------+
-| 11 | sara    | grace house    | kochi   | 9898675432 |
-| 13 | gia     | kphouse        | calicut | 6767553098 |
-| 21 | benny   | white house    | kollam  | 6585627865 |
-| 22 | Vinayak | methottthazham | calicut | 8967435632 |
-| 24 | sinu    | karanthoor     | calicut | 8964785632 |
-| 26 | aswani  | mukkam         | wayanad | 9087435632 |
-| 28 | sahva   | muthalam       | kollam  | 9346025632 |
-+----+---------+----------------+---------+------------+
+mysql> select * from Customer;
++----+---------+-------------+-----------+------------+
+| id | name    | address     | city      | ph_no      |
++----+---------+-------------+-----------+------------+
+| 13 | gia     | kphouse     | kozhikode | 6767553098 |
+| 21 | benny   | white house | kollam    | 6585627865 |
+| 22 | Vinayak | sreenilayam | kozhikode | 8590781193 |
+| 24 | sinu    | karanthoor  | calicut   | 8964785632 |
+| 26 | aswani  | mukkam      | wayanad   | 9087435632 |
+| 28 | sahva   | muthalam    | kollam    | NULL       |
++----+---------+-------------+-----------+------------+
+6 rows in set (0.00 sec)
+
 7 rows in set (0.00 sec)
 
 
