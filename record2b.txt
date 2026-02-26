@@ -35,7 +35,7 @@ mysql> select * from Customer;
 | 22 | Vinayak | methottthazham | calicut   | 8967435632 |
 | 24 | sinu    | karanthoor     | calicut   | 8964785632 |
 | 26 | aswani  | mukkam         | wayanad   | 9087435632 |
-| 28 | sahva   | muthalam       | kollam    | 9346025632 |
+| 28 | sahva   | muthalam       | kollam    | null       |
 +----+---------+----------------+-----------+------------+
 
 3. Update all prices with 2% of its original price. 
@@ -74,7 +74,7 @@ mysql> select * from Customer;
 | 22 | Vinayak | sreenilayam | kozhikode | 8590781193 |
 | 24 | sinu    | karanthoor  | calicut   | 8964785632 |
 | 26 | aswani  | mukkam      | wayanad   | 9087435632 |
-| 28 | sahva   | muthalam    | kollam    |   null|
+| 28 | sahva   | muthalam    | kollam    |   null     |
 +----+---------+-------------+-----------+------------+
 7 rows in set (0.00 sec)
 
