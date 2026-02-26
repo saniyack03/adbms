@@ -2,7 +2,7 @@ c) DML - DELETE
 
 1. Delete the record of customer id ‘11’. 
 
-mysql> DELETE FROM Invoice_item WHERE inv_id in (SELECT inv_id FROM Invoice_master where cust_id=11);
+mysql> DELETE FROM Invoice_item WHERE inv_id =132;
 Query OK, 3 rows affected (0.11 sec)
 
 mysql> delete from Invoice_master where cust_id=11;
@@ -19,7 +19,7 @@ mysql> select * from Customer;
 | 22 | Vinayak | sreenilayam | kozhikode | 8590781193 |
 | 24 | sinu    | karanthoor  | calicut   | 8964785632 |
 | 26 | aswani  | mukkam      | wayanad   | 9087435632 |
-| 28 | sahva   | muthalam    | kollam    | 9346025632 |
+| 28 | sahva   | muthalam    | kollam    | null |
 +----+---------+-------------+-----------+------------+
 6 rows in set (0.00 sec)
 
@@ -50,7 +50,7 @@ mysql> select * from Invoice_item;
 
 3. Delete the purchase details of product ‘pen’ in the inv_id ‘133’. 
 
-mysql> delete from Invoice_item where inv_id=133 and pid=(select pid from Product where pname='pen');
+mysql> delete from Invoice_item where inv_id=133 and pid=2;
 Query OK, 1 row affected (0.10 sec)
 
 mysql> select * from Invoice_item;
@@ -74,23 +74,13 @@ mysql> select * from Invoice_item;
 
 4. Delete details of customer who does not have phone number. 
 
-mysql> DELETE FROM Invoice_item 
-    -> WHERE inv_id IN (
-    ->     SELECT inv_id 
-    ->     FROM Invoice_master 
-    ->     WHERE cust_id IN (
-    ->         SELECT id 
-    ->         FROM Customer 
-    ->         WHERE ph_no IS NULL
-    ->     )
-    -> );
+mysql> DELETE FROM Invoice_item where inv_id=138;
+    
 Query OK, 1 row affected (0.09 sec)
 
-mysql> DELETE FROM Invoice_master where cust_id IN (SELECT id FROM Customer WHERE ph_no IS NULL);
+mysql> DELETE FROM Invoice_master where cust_id=28;
 Query OK, 1 row affected (0.08 sec)
 
-mysql> DELETE FROM CUSTOMER WHERE ph_no IS NULL;
-ERROR 1146 (42S02): Table 'INVOICE.CUSTOMER' doesn't exist
 mysql> DELETE FROM Customer WHERE ph_no IS NULL;
 Query OK, 1 row affected (0.24 sec)
 
@@ -117,7 +107,7 @@ Empty set (0.00 sec)
 
 6. Delete Invoice details of a particular customer "XYZ".
 
-mysql> DELETE FROM Invoice_item where inv_id IN (SELECT inv_id from Invoice_master where cust_id=26);
+mysql> DELETE FROM Invoice_item where inv_id =137;
 Query OK, 1 row affected (0.13 sec)
 
 mysql> DELETE FROM Invoice_master WHERE cust_id=26;
