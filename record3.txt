@@ -1,0 +1,169 @@
+a) TCL COMMANDS 
+ 1. Commit 
+
+mysql> SET AUTOCOMMIT = 0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into STUDENT values(1,"saniya",22,"female");
+Query OK, 1 row affected (0.02 sec)
+mysql> SELECT * from STUDENT;
++---------+--------+-----+--------+
+| Roll_no | Name   | Age | Gender |
++---------+--------+-----+--------+
+|       1 | saniya |  22 | female |
++---------+--------+-----+--------+
+1 row in set (0.00 sec)
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * FROM STUDENT;
+Empty set (0.00 sec)
+
+
+ 2. Rollback 
+ 
+ SET AUTOCOMMIT=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO STUDENT VALUES(11,"SANIYA",22,"FEMALE");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM STUDENT;
++---------+--------+-----+--------+
+| Roll_no | Name   | Age | Gender |
++---------+--------+-----+--------+
+|      11 | SANIYA |  22 | FEMALE |
++---------+--------+-----+--------+
+1 row in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> SELECT * FROM STUDENT;
+Empty set (0.00 sec)
+
+
+ 3. Savepoint
+ 
+ mysql> SET AUTOCOMMIT=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO STUDENT VALUES(11,"SANIYA",23,"FEMALE");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO STUDENT VALUES(12,"VINTU",23,"MALE");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SAVEPOINT sp1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE STUDENT SET Age=25 where Roll_no=12;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SAVEPOINT sp2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO STUDENT VALUES(13,"ARADHYA",13,"FEMALE");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SAVEPOINT sp3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM STUDENT;
++---------+---------+-----+--------+
+| Roll_no | Name    | Age | Gender |
++---------+---------+-----+--------+
+|      11 | SANIYA  |  23 | FEMALE |
+|      12 | VINTU   |  25 | MALE   |
+|      13 | ARADHYA |  13 | FEMALE |
++---------+---------+-----+--------+
+3 rows in set (0.00 sec)
+
+mysql> DELETE FROM STUDENT WHERE Roll_no=11;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM STUDENT;
++---------+---------+-----+--------+
+| Roll_no | Name    | Age | Gender |
++---------+---------+-----+--------+
+|      12 | VINTU   |  25 | MALE   |
+|      13 | ARADHYA |  13 | FEMALE |
++---------+---------+-----+--------+
+2 rows in set (0.00 sec)
+
+mysql> ROLLBACK TO sp3
+    -> ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> ROLLBACK TO SP1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM STUDENT;
++---------+--------+-----+--------+
+| Roll_no | Name   | Age | Gender |
++---------+--------+-----+--------+
+|      11 | SANIYA |  23 | FEMALE |
+|      12 | VINTU  |  23 | MALE   |
++---------+--------+-----+--------+
+2 rows in set (0.00 sec)
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.10 sec)
+
+
+ b) DCL COMMAND 
+ 
+ 
+ Create two users user1, user2 
+ 1. GRANT:   Give insert and select privilege to user 1 on customer table in the invoice database.
+ Give update and delete privilege to user 2 on all tables in the invoice database. 
+ 
+mysql> CREATE USER 'user1'@'localhost' IDENTIFIED BY 'pass321';
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> GRANT INSERT,SELECT ON INVOICE.Customer TO 'user1'@'localhost';
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> SHOW GRANTS FOR 'user1'@'localhost';
++---------------------------------------------------------------------+
+| Grants for user1@localhost                                          |
++---------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `user1`@`localhost`                           |
+| GRANT SELECT, INSERT ON `INVOICE`.`Customer` TO `user1`@`localhost` |  |
++---------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+
+mysql> CREATE USER 'user2'@'localhost' IDENTIFIED BY 'pass321';
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> GRANT UPDATE,DELETE ON INVOICE.* TO 'user2'@'localhost';
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> SHOW GRANTS FOR 'user2'@'localhost';
++------------------------------------------------------------+
+| Grants for user2@localhost                                 |
++------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `user2`@`localhost`                  |
+| GRANT UPDATE, DELETE ON `INVOICE`.* TO `user2`@`localhost` | |
++------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+
+2. REVOKE:   Remove delete privilege of user 2.
+
+mysql> REVOKE DELETE ON INVOICE.Product from 'user2'@'localhost';
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> SHOW GRANTS FOR 'user2'@'localhost';
++------------------------------------------------------------+
+| Grants for user2@localhost                                 |
++------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `user2`@`localhost`                  |
+| GRANT UPDATE ON `INVOICE`.`Product` TO `user2`@`localhost` |
++------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+ 
