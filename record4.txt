@@ -1,0 +1,82 @@
+1. List all invoice items, avoid duplicates.    
+
+mysql> SELECT * FROM Invoice_item;
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|    140 |    3 |        6 |
+|    141 |    5 |        3 |
+|    134 |    5 |        3 |
+|    136 |    3 |        7 |
+|    140 |    6 |        3 |
+|    136 |    4 |        7 |
+|    140 |    3 |        7 |
+|    141 |    4 |        6 |
++--------+------+----------+
+8 rows in set (0.02 sec)
+
+mysql> select distinct inv_id from Invoice_item;
++--------+
+| inv_id |
++--------+
+|    134 |
+|    136 |
+|    140 |
+|    141 |
++--------+
+4 rows in set (0.00 sec)
+
+2.List the customer details who not live in ‘kollam’.
+
+mysql> select * from Customer;
++----+---------+-------------+-----------+------------+
+| id | name    | address     | city      | ph_no      |
++----+---------+-------------+-----------+------------+
+| 13 | gia     | kphouse     | kozhikode | 6767553098 |
+| 21 | benny   | white house | kollam    | 6585627865 |
+| 22 | Vinayak | sreenilayam | kozhikode | 8590781193 |
+| 24 | sinu    | karanthoor  | calicut   | 8964785632 |
+| 26 | aswani  | mukkam      | wayanad   | 9087435632 |
++----+---------+-------------+-----------+------------+
+5 rows in set (0.03 sec)
+
+mysql> select * from Customer where city!='kollam';
++----+---------+-------------+-----------+------------+
+| id | name    | address     | city      | ph_no      |
++----+---------+-------------+-----------+------------+
+| 13 | gia     | kphouse     | kozhikode | 6767553098 |
+| 22 | Vinayak | sreenilayam | kozhikode | 8590781193 |
+| 24 | sinu    | karanthoor  | calicut   | 8964785632 |
+| 26 | aswani  | mukkam      | wayanad   | 9087435632 |
++----+---------+-------------+-----------+------------+
+4 rows in set (0.00 sec)
+
+3. Display the customer details sorted in ascending by city and descending by names.
+
+mysql> select name,city from Customer order by city asc,name desc;
++---------+-----------+
+| name    | city      |
++---------+-----------+
+| sinu    | calicut   |
+| benny   | kollam    |
+| Vinayak | kozhikode |
+| gia     | kozhikode |
+| aswani  | wayanad   |
++---------+-----------+
+5 rows in set (0.00 sec)
+
+4. Find the customer names who have ‘e’ or ‘a’ in them and at least 3 characters in length.
+
+mysql> select name from Customer where name like '%e%' or name like '%a%' and name like '___%';
++---------+
+| name    |
++---------+
+| gia     |
+| benny   |
+| Vinayak |
+| aswani  |
++---------+
+4 rows in set (0.00 sec)
+
+
+
