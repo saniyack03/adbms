@@ -14,34 +14,17 @@ mysql> select * from Product;
 +-----+--------+-------+
 7 rows in set (0.03 sec)
 
-mysql> select min(price) from Product;
-+------------+
-| min(price) |
-+------------+
-|          5 |
-+------------+
+mysql> select min(price),max(price),avg(price) from Product;
++------------+------------+------------+
+| min(price) | max(price) | avg(price) |
++------------+------------+------------+
+|          5 |        102 |    48.0000 |
++------------+------------+------------+
 1 row in set (0.00 sec)
-
-mysql> select max(price) from Product;
-+------------+
-| max(price) |
-+------------+
-|        102 |
-+------------+
-1 row in set (0.00 sec)
-
-mysql> select avg(price) from Product;
-+------------+
-| avg(price) |
-+------------+
-|    48.0000 |
-+------------+
-
 
 2. Find the number of customers in each city, and only include cities with more than 2 customers.
 
-mysql> SELECT city, COUNT(*) AS Number_of_Customers FROM Customer GROUP BY city
-HAVING COUNT(*) > 1;
+mysql> SELECT city, COUNT(*) AS Number_of_Customers FROM Customer GROUP BY city HAVING COUNT(*) > 1;
 +-----------+---------------------+
 | city      | Number_of_Customers |
 +-----------+---------------------+
