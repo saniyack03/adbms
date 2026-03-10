@@ -1,0 +1,40 @@
+1.Create a view for customers who have purchased products.
+mysql> CREATE VIEW p_customer AS SELECT Customer.id, Customer.name FROM Customer
+ JOIN Invoice_master ON Customer.id = Invoice_master.cust_id;
+Query OK, 0 rows affected (0.16 sec)
+
+mysql> select * from p_customer;
++----+---------+
+| id | name    |
++----+---------+
+| 13 | gia     |
+| 13 | gia     |
+| 13 | gia     |
+| 13 | gia     |
+| 21 | benny   |
+| 22 | Vinayak |
+| 24 | sinu    |
++----+---------+
+7 rows in set (0.00 sec)
+
+2. Create a view for invoice products[cname, , inv_id, product_id, quantity]
+
+mysql> CREATE VIEW invoice_productss AS SELECT Customer.name,Invoice_master.inv_id,Invoice_item.pid, Invoice_item.quantity FROM Customer JOIN Invoice_master ON Customer.id = Invoice_master.cust_id JOIN Invoice_item ON Invoice_master.inv_id = Invoice_item.inv_id;
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> SELECT * FROM invoice_productss;
++-------+--------+------+----------+
+| name  | inv_id | pid  | quantity |
++-------+--------+------+----------+
+| gia   |    140 |    3 |        6 |
+| gia   |    141 |    5 |        3 |
+| benny |    134 |    5 |        3 |
+| sinu  |    136 |    3 |        7 |
+| gia   |    140 |    6 |        3 |
+| sinu  |    136 |    4 |        7 |
+| gia   |    140 |    3 |        7 |
+| gia   |    141 |    4 |        6 |
++-------+--------+------+----------+
+8 rows in set (0.00 sec)
+
+
