@@ -1,0 +1,49 @@
+1. List the product name and quantity of invoice items. 
+mysql> select Product.pname,Invoice_item.quantity from Product natural join Invoice_item;
++--------+----------+
+| pname  | quantity |
++--------+----------+
+| pencil |        6 |
+| table  |        3 |
+| table  |        3 |
+| pencil |        7 |
+| cup    |        3 |
+| scale  |        7 |
+| pencil |        7 |
+| scale  |        6 |
++--------+----------+
+8 rows in set (0.00 sec)
+
+
+2.. Display the customer name, product name, invoice date of purchased item ‘pen’.
+
+mysql> SELECT Customer.name, Product.pname, Invoice_master.inv_date FROM Customer JOIN Invoice_master ON Customer.id = Invoice_master.cust_id
+JOIN Invoice_item ON Invoice_master.inv_id = Invoice_item.inv_id JOIN Product ON Invoice_item.pid = Product.pid WHERE Product.pname = 'pencil';
++------+--------+------------+
+| name | pname  | inv_date   |
++------+--------+------------+
+| gia  | pencil | 2025-04-29 |
+| sinu | pencil | 2025-03-28 |
+| gia  | pencil | 2025-04-29 |
++------+--------+------------+
+3 rows in set (0.00 sec)
+
+ 3. Display all customer details and invoice details must include customer has not
+purchased items.
+
+mysql> SELECT Customer.id, Customer.name, Invoice_master.inv_id FROM Customer LEFT OUTER JOIN Invoice_master ON Customer.id = Invoice_master.cust_id;
++----+---------+--------+
+| id | name    | inv_id |
++----+---------+--------+
+| 13 | gia     |    133 |
+| 13 | gia     |    140 |
+| 13 | gia     |    141 |
+| 13 | gia     |    143 |
+| 21 | benny   |    134 |
+| 22 | Vinayak |    135 |
+| 24 | sinu    |    136 |
+| 26 | aswani  |   NULL |
++----+---------+--------+
+8 rows in set (0.00 sec)
+
+ 
