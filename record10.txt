@@ -1,0 +1,49 @@
+1. Create a procedure to find greatest of 3 numbers. 
+mysql> delimiter $$
+mysql> create procedure greats(in x int,in y int,in z int)
+    -> begin
+    -> declare a int;
+    -> declare c int;
+    -> declare b int;
+    -> set a = x;
+    -> set b = y;
+    -> set c = z;
+    -> if(a>b AND a>c) then
+    -> select a as 'greater';
+    -> elseif(b>c and b>a)then
+    -> select b as 'greater';
+    -> else select c as 'greater';
+    -> end if;
+    -> end$$
+Query OK, 0 rows affected (0.30 sec)
+
+mysql> call greats(4,6,2)$$
++---------+
+| greater |
++---------+
+|       6 |
++---------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+2. Create a procedure to display invoice details of a particular customer.
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE det(IN c_id INT) BEGIN SELECT Customer.id, Customer.name, Invoice_master.inv_id, Invoice_master.inv_date, Invoice_item.pid, Invoice_item.quantity FROM Customer JOIN Invoice_master ON Customer.id = Invoice_master.cust_id JOIN Invoice_item ON Invoice_master.inv_id = Invoice_item.inv_id WHERE Customer.id = c_id;  END$$
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> call det(13)$$
++----+------+--------+------------+------+----------+
+| id | name | inv_id | inv_date   | pid  | quantity |
++----+------+--------+------------+------+----------+
+| 13 | gia  |    140 | 2025-04-29 |    3 |        6 |
+| 13 | gia  |    140 | 2025-04-29 |    6 |        3 |
+| 13 | gia  |    140 | 2025-04-29 |    3 |        7 |
+| 13 | gia  |    141 | 2025-10-14 |    5 |        3 |
+| 13 | gia  |    141 | 2025-10-14 |    4 |        6 |
++----+------+--------+------------+------+----------+
+5 rows in set (0.05 sec)
+
+Query OK, 0 rows affected (0.05 sec)
+
+

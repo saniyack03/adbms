@@ -1,0 +1,32 @@
+1. Create a trigger to handle inserts to the product relation ( if price < 5 the set price to 10).
+mysql> DELIMITER $$
+mysql> CREATE TRIGGER TRGSS
+    -> BEFORE INSERT ON Product
+    -> for each row
+    -> begin
+    -> if new.price>5 then
+    -> set new.price=10;
+    -> end if;
+    -> end $$
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> insert into Product values(8,"shoe",3);
+    -> $$
+Query OK, 1 row affected (0.11 sec)
+
+mysql> select * from Product;
+    -> $$
++-----+--------+-------+
+| pid | pname  | price |
++-----+--------+-------+
+|   1 | soap   |    51 |
+|   2 | pen    |    10 |
+|   3 | pencil |     5 |
+|   4 | scale  |     6 |
+|   5 | table  |   101 |
+|   6 | cup    |    61 |
+|   7 | book   |   102 |
+|   8 | shoe   |    10 |
++-----+--------+-------+
+8 rows in set (0.00 sec)
+
