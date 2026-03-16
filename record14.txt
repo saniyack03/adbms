@@ -1,0 +1,150 @@
+1. Write a MongoDB query to create an INVOICE database and collections (CUSTOMER,
+PRODUCT) and its corresponding documents.
+
+test> use invoice
+switched to db invoice
+
+invoice> db.customer.drop()
+true
+invoice> show collections
+product
+invoice> db.createCollection("customer")
+{ ok: 1 }
+invoice> db.customer.insertMany([{"name":"saniya","city":"calicut","ph_no":8590781193},{"name":"shreya","city":"wayanad","ph_no":7890657890},{"name":"anamika","city":"calicut","ph_no":6789987545}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69b7ac638f0c52ad4632a047'),
+    '1': ObjectId('69b7ac638f0c52ad4632a048'),
+    '2': ObjectId('69b7ac638f0c52ad4632a049')
+  }
+}
+invoice> db.customer.insertOne({"name":"vintu","city":"ekm","ph_no":8592005312})
+{
+  acknowledged: true,
+  insertedId: ObjectId('69b7accf8f0c52ad4632a04a')
+}
+invoice> db.customer.insertOne({"name":"aradhya","city":"tvm","ph_no":9633771836})
+{
+  acknowledged: true,
+  insertedId: ObjectId('69b7acee8f0c52ad4632a04b')
+}
+
+invoice> db.createCollection("product")
+{ ok: 1 }
+invoice> db.product.insertOne({"pname":"watch","price":500})
+{
+  acknowledged: true,
+  insertedId: ObjectId('69b7ada38f0c52ad4632a04c')
+}
+invoice> db.product.insertOne({"pname":"pen","price":10})
+{
+  acknowledged: true,
+  insertedId: ObjectId('69b7adb18f0c52ad4632a04d')
+}
+invoice> db.product.insertOne({"pname":"pencil","price":5})
+{
+  acknowledged: true,
+  insertedId: ObjectId('69b7adc08f0c52ad4632a04e')
+}
+invoice> db.product.insertOne({"pname":"scale","price":12})
+{
+  acknowledged: true,
+  insertedId: ObjectId('69b7adcd8f0c52ad4632a04f')
+}
+invoice> db.product.insertOne({"pname":"shoe","price":120})
+{
+  acknowledged: true,
+  insertedId: ObjectId('69b7add98f0c52ad4632a050')
+}
+
+
+
+2. Write a MongoDB query to find all documents from the collection CUSTOMER 
+
+invoice> db.customer.find()
+[
+  {
+    _id: ObjectId('69b7ac638f0c52ad4632a047'),
+    name: 'saniya',
+    city: 'calicut',
+    ph_no: 8590781193
+  },
+  {
+    _id: ObjectId('69b7ac638f0c52ad4632a048'),
+    name: 'shreya',
+    city: 'wayanad',
+    ph_no: 7890657890
+  },
+  {
+    _id: ObjectId('69b7ac638f0c52ad4632a049'),
+    name: 'anamika',
+    city: 'calicut',
+    ph_no: 6789987545
+  },
+  {
+    _id: ObjectId('69b7accf8f0c52ad4632a04a'),
+    name: 'vintu',
+    city: 'ekm',
+    ph_no: 8592005312
+  },
+  {
+    _id: ObjectId('69b7acee8f0c52ad4632a04b'),
+    name: 'aradhya',
+    city: 'tvm',
+    ph_no: 9633771836
+  }
+]
+
+
+invoice> db.product.find()
+[
+  {
+    _id: ObjectId('69b7ada38f0c52ad4632a04c'),
+    pname: 'watch',
+    price: 500
+  },
+  {
+    _id: ObjectId('69b7adb18f0c52ad4632a04d'),
+    pname: 'pen',
+    price: 10
+  },
+  {
+    _id: ObjectId('69b7adc08f0c52ad4632a04e'),
+    pname: 'pencil',
+    price: 5
+  },
+  {
+    _id: ObjectId('69b7adcd8f0c52ad4632a04f'),
+    pname: 'scale',
+    price: 12
+  },
+  {
+    _id: ObjectId('69b7add98f0c52ad4632a050'),
+    pname: 'shoe',
+    price: 120
+  }
+]
+
+
+
+3. Write a MongoDB query to update the city in the collection CUSTOMER
+
+invoice> db.customer.update({"city":"wayanad"},{$set:{"city":"kzd"}})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+
+
+ 4. Write a MongoDB query to delete the first matched document whose city is “Calicut”.
+ 
+ invoice> db.customer.deleteOne({"city":"calicut"})
+{ acknowledged: true, deletedCount: 1 }
+
+
