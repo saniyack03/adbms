@@ -1,0 +1,136 @@
+1. Write a MongoDB query to sort customer details in ascending order of their name.
+invoice> db.customer.find().sort({name:1})
+[
+  {
+    _id: ObjectId('69b7ac638f0c52ad4632a049'),
+    name: 'anamika',
+    city: 'calicut',
+    ph_no: 6789987545
+  },
+  {
+    _id: ObjectId('69b7acee8f0c52ad4632a04b'),
+    name: 'aradhya',
+    city: 'tvm',
+    ph_no: 9633771836
+  },
+  {
+    _id: ObjectId('69b7ac638f0c52ad4632a048'),
+    name: 'shreya',
+    city: 'kzd',
+    ph_no: 7890657890
+  },
+  {
+    _id: ObjectId('69b7accf8f0c52ad4632a04a'),
+    name: 'vintu',
+    city: 'ekm',
+    ph_no: 8592005312
+  }
+]
+
+ 2. Write a MongoDB query to count number of customers in each city.
+invoice> db.customer.aggregate([{$group:{_id:"$city",total:{$sum:1}}}])
+[
+  { _id: 'kzd', total: 1 },
+  { _id: 'calicut', total: 1 },
+  { _id: 'ekm', total: 1 },
+  { _id: 'tvm', total: 1 }
+]
+
+ 3. Write a MongoDB query to find minimum and maximum price in each product name. 
+invoice> db.product.find()
+[
+  {
+    _id: ObjectId('69b7ada38f0c52ad4632a04c'),
+    pname: 'watch',
+    price: 500
+  },
+  {
+    _id: ObjectId('69b7adb18f0c52ad4632a04d'),
+    pname: 'pen',
+    price: 10
+  },
+  {
+    _id: ObjectId('69b7adc08f0c52ad4632a04e'),
+    pname: 'pencil',
+    price: 5
+  },
+  {
+    _id: ObjectId('69b7adcd8f0c52ad4632a04f'),
+    pname: 'scale',
+    price: 12
+  },
+  {
+    _id: ObjectId('69b7add98f0c52ad4632a050'),
+    pname: 'shoe',
+    price: 120
+  },
+  {
+    _id: ObjectId('69b8f7cccaed20711a32a03c'),
+    pname: 'scale',
+    price: 16
+  }
+]
+invoice> db.product.aggregate([{$group:{_id:"$pname",max_price:{$max:"$price"},min_price:{$min:"$price"}}}])
+[
+  { _id: 'pencil', max_price: 5, min_price: 5 },
+  { _id: 'pen', max_price: 10, min_price: 10 },
+  { _id: 'shoe', max_price: 120, min_price: 120 },
+  { _id: 'watch', max_price: 500, min_price: 500 },
+  { _id: 'scale', max_price: 16, min_price: 12 }
+]
+
+4. Write a MongoDB query using the $match stage to retrieve all customer documents whose
+customer_name starts with the letter “S”.
+invoice> db.customer.aggregate([{$match:{name:{$regex:"^s"}}}])
+[
+  {
+    _id: ObjectId('69b7ac638f0c52ad4632a048'),
+    name: 'shreya',
+    city: 'kzd',
+    ph_no: 7890657890
+  }
+]
+5. Write a query using $lookup to join CUSTOMER and PRODUCT collections and display only customer name, product name, and price.
+invoice> db.customer.aggregate([
+...   {
+...     $lookup: {
+...       from: "product",
+...       localField: "product_id",
+...       foreignField: "product_id",
+...       as: "product_info"
+...     }
+...   },
+...   { $unwind: "$product_info" },
+...   {
+...     $project: {
+...       _id: 0,
+...       name: "$name",
+...       pname: "$product_info.pname",
+...       price: "$product_info.price"
+...     }
+...   }
+... ]);
+[
+  { name: 'shreya', pname: 'watch', price: 500 },
+  { name: 'shreya', pname: 'pen', price: 10 },
+  { name: 'shreya', pname: 'pencil', price: 5 },
+  { name: 'shreya', pname: 'scale', price: 12 },
+  { name: 'shreya', pname: 'shoe', price: 120 },
+  { name: 'shreya', pname: 'scale', price: 16 },
+  { name: 'anamika', pname: 'watch', price: 500 },
+  { name: 'anamika', pname: 'pen', price: 10 },
+  { name: 'anamika', pname: 'pencil', price: 5 },
+  { name: 'anamika', pname: 'scale', price: 12 },
+  { name: 'anamika', pname: 'shoe', price: 120 },
+  { name: 'anamika', pname: 'scale', price: 16 },
+  { name: 'vintu', pname: 'watch', price: 500 },
+  { name: 'vintu', pname: 'pen', price: 10 },
+  { name: 'vintu', pname: 'pencil', price: 5 },
+  { name: 'vintu', pname: 'scale', price: 12 },
+  { name: 'vintu', pname: 'shoe', price: 120 },
+  { name: 'vintu', pname: 'scale', price: 16 },
+  { name: 'aradhya', pname: 'watch', price: 500 },
+  { name: 'aradhya', pname: 'pen', price: 10 }
+]
+
+
