@@ -1,0 +1,94 @@
+1. Write a MongoDB query to create a user “CUSTOMER1” and grant the read role in the INVOICE database. 
+
+ use invoice;
+switched to db invoice
+invoice> db.createUser({user:"CUSTOMER1",pwd:"1234",roles:[{role:"read", db:"invoice"}]});
+{ ok: 1 }
+
+invoice> db.getUsers()
+{
+  users: [
+    {
+      _id: 'invoice.CUSTOMER1',
+      userId: UUID('c25b701d-49f9-4f7b-83c2-9bd8696fe02d'),
+      user: 'CUSTOMER1',
+      db: 'invoice',
+      roles: [ { role: 'read', db: 'invoice' } ],
+      mechanisms: [ 'SCRAM-SHA-1', 'SCRAM-SHA-256' ]
+    }
+  ],
+  ok: 1
+  
+  
+
+2. Write a MongoDB query to create the backup for the INVOICE database. 
+
+
+ksb@ksb-OptiPlex-3060:~$ mongodump --db invoice --out ~/invoice_backup
+2026-03-19T15:05:11.667+0530	writing invoice.product to /home/ksb/invoice_backup/invoice/product.bson
+2026-03-19T15:05:11.667+0530	writing invoice.customer to /home/ksb/invoice_backup/invoice/customer.bson
+2026-03-19T15:05:11.668+0530	done dumping invoice.product (6 documents)
+2026-03-19T15:05:11.668+0530	done dumping invoice.customer (4 documents)
+ksb@ksb-OptiPlex-3060:~$ 
+
+
+
+3. Write a MongoDB query to restore a particular database or a collection. 
+
+kb> use ksb
+switched to db ksb
+ksb> show collections
+CUSTOMER
+MCA
+mycollection
+
+ksb> exit
+ksb@ksb-OptiPlex-3060:~$ mongodump --db ksb
+2026-03-23T11:39:59.443+0530	writing ksb.CUSTOMER to dump/ksb/CUSTOMER.bson
+2026-03-23T11:39:59.443+0530	writing ksb.mycollection to dump/ksb/mycollection.bson
+2026-03-23T11:39:59.443+0530	writing ksb.MCA to dump/ksb/MCA.bson
+2026-03-23T11:39:59.456+0530	done dumping ksb.CUSTOMER (3 documents)
+2026-03-23T11:39:59.479+0530	done dumping ksb.mycollection (1 document)
+2026-03-23T11:39:59.497+0530	done dumping ksb.MCA (0 documents)
+ksb@ksb-OptiPlex-3060:~$ mongosh
+
+
+ test> use ksb
+switched to db ksb
+ksb> db.ksb.drop()
+true
+ksb> exit
+
+ksb@ksb-OptiPlex-3060:~$ mongorestore --db ksb --drop dump/ksb
+2026-03-23T11:43:42.622+0530	The --db and --collection flags are deprecated for this use-case; please use --nsInclude instead, i.e. with --nsInclude=${DATABASE}.${COLLECTION}
+2026-03-23T11:43:42.622+0530	building a list of collections to restore from dump/ksb dir
+2026-03-23T11:43:42.622+0530	don't know what to do with file "dump/ksb/prelude.json", skipping...
+2026-03-23T11:43:42.622+0530	reading metadata for ksb.MCA from dump/ksb/MCA.metadata.json
+2026-03-23T11:43:42.622+0530	reading metadata for ksb.mycollection from dump/ksb/mycollection.metadata.json
+2026-03-23T11:43:42.622+0530	reading metadata for ksb.CUSTOMER from dump/ksb/CUSTOMER.metadata.json
+2026-03-23T11:43:42.623+0530	dropping collection ksb.CUSTOMER before restoring
+2026-03-23T11:43:42.623+0530	dropping collection ksb.mycollection before restoring
+2026-03-23T11:43:42.623+0530	dropping collection ksb.MCA before restoring
+2026-03-23T11:43:43.164+0530	restoring ksb.CUSTOMER from dump/ksb/CUSTOMER.bson
+2026-03-23T11:43:43.234+0530	finished restoring ksb.CUSTOMER (3 documents, 0 failures)
+2026-03-23T11:43:43.327+0530	restoring ksb.mycollection from dump/ksb/mycollection.bson
+2026-03-23T11:43:43.363+0530	finished restoring ksb.mycollection (1 document, 0 failures)
+2026-03-23T11:43:43.422+0530	restoring ksb.MCA from dump/ksb/MCA.bson
+2026-03-23T11:43:43.440+0530	finished restoring ksb.MCA (0 documents, 0 failures)
+2026-03-23T11:43:43.440+0530	no indexes to restore for collection ksb.MCA
+2026-03-23T11:43:43.440+0530	no indexes to restore for collection ksb.mycollection
+2026-03-23T11:43:43.440+0530	no indexes to restore for collection ksb.CUSTOMER
+2026-03-23T11:43:43.440+0530	4 document(s) restored successfully. 0 document(s) failed to restore.
+
+
+
+ 4. Write a MongoDB query to create an index for the collection customer using the field customer_name.
+ 
+ invoice> db.customer.createIndex({ name: 1})
+name_1
+invoice> db.customer.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { name: 1 }, name: 'name_1' }
+]
+
